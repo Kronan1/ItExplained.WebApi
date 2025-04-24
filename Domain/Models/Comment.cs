@@ -1,12 +1,26 @@
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace it_explained.WebApi.Domain.Models
 {
     public class Comment
     {
-        public string Id { get; set; } = null!;
+        [BsonId]
+        public ObjectId Id { get; set; }
+
+        [BsonElement("name")]
         public string? Name { get; set; }
+
+        [BsonElement("email")]
         public string? Email { get; set; }
-        public string? MovieId { get; set; }
+
+        [BsonElement("movie_id")]
+        public ObjectId? MovieId { get; set; }
+
+        [BsonElement("text")]
         public string? Text { get; set; }
+
+        [BsonElement("date")]
         public DateTime Date { get; set; }
     }
     

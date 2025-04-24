@@ -24,7 +24,6 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = "swagger"; // default
 });
 
-
 app.MapWeatherForecast();
 app.MapMongoDbSample(
     app.Services.GetRequiredService<DbContextService>(), 

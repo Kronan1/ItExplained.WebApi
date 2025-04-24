@@ -1,0 +1,46 @@
+# Build artifacts
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Rider / JetBrains IDE
+.idea/
+
+# ASP.NET launch settings
+Properties/launchSettings.json
+
+# Configuration files
+appsettings.json
+appsettings.Development.json
+appsettings.Local.json
+
+# User secrets
+**/secrets.json
+
+# HTTP test files (optional, include only if needed)
+*.http
+
+# Logs
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Dotnet tools
+*.nupkg
+.nuget/
+
+# Optional: Ignore local db files (if any used)
+*.db
+
+# Rider-specific plugin and cache folders
+.idea/
+.idea_modules/
+
+# Ignore test results
+TestResults/
