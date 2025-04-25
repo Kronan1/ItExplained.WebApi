@@ -26,8 +26,10 @@ app.UseSwaggerUI(options =>
 
 app.MapWeatherForecast();
 app.MapMongoDbSample(
-    app.Services.GetRequiredService<DbContextService>(), 
-    app.Services.GetRequiredService<IMapper>()
+    app.Services.GetRequiredService<DbContextService>()
+);
+app.MapSaveTopic(
+    app.Services.GetRequiredService<DbContextService>()
 );
 
 app.UseHttpsRedirection();

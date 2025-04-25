@@ -8,23 +8,10 @@ namespace it_explained.WebApi.EndPoints;
 
 public static class MongoDbSampleEndPoint
 {
-    public static IEndpointRouteBuilder MapMongoDbSample(this IEndpointRouteBuilder app, DbContextService dbContextService, IMapper mapper)
+    public static IEndpointRouteBuilder MapMongoDbSample(this IEndpointRouteBuilder app, DbContextService dbContextService)
     {
-        app.MapGet("/api/comments", (HttpContext context) =>
+        app.MapGet("/api/comments", () =>
         {
-            //var collection = dbContextService.MongoClient
-            //    .GetDatabase("sample_mflix")
-            //    .GetCollection<Comment>("comments");
-
-            //var data = collection.Find(Builders<Comment>.Filter.Empty).ToListAsync();
-
-            //data.Wait();
-
-            //var result = mapper.Map<IEnumerable<Comment>>(data);
-            //context.Response.WriteAsJsonAsync(result);
-
-            //Console.WriteLine("end of mapping");
-
             try
             {
                 var result = dbContextService.MongoClient.GetDatabase("admin").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
