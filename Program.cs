@@ -6,9 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-var Configuration = builder.Configuration;
 builder.Services.AddSingleton<DbContextService>();
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // OpenAPI + Swagger
 builder.Services.AddEndpointsApiExplorer(); // Needed for Minimal APIs
@@ -28,8 +26,9 @@ app.MapWeatherForecast();
 app.MapMongoDbSample(
     app.Services.GetRequiredService<DbContextService>()
 );
-app.MapSaveTopic(
-    app.Services.GetRequiredService<DbContextService>()
+app.MapTopic(
+    app.Services.GetRequiredService<DbContextService>(),
+    app.Services.GetRequiredService<IConfiguration>()
 );
 
 app.UseHttpsRedirection();

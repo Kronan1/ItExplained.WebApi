@@ -7,29 +7,26 @@ namespace it_explained.WebApi.Helpers
     {
         public static Topic ParseTopic(string markdownData)
         {
-            // Regex to extract the metadata block (between <!-- and -->)
-            var metadataPattern = @"<!--\s*Title:\s*(?<Title>.*?)\s*Tags:\s*(?<Tags>.*?)\s*Slug:\s*(?<Slug>.*?)\s*-->";
-            var match = Regex.Match(markdownData, metadataPattern, RegexOptions.Singleline);
+            var metadataPattern = @"<!--(.*?)-->";
+            var metadataMatch = Regex.Match(markdownData, metadataPattern, RegexOptions.Singleline);
 
-            if (!match.Success)
-            {
+            var titlePattern = @"<!--\s*Title:\s*(?<Title>.*?)\s*(?:Tags:|Slug:|-->)";
+            var titleMatch = Regex.Match(markdownData, titlePattern, RegexOptions.Singleline);
+
+            if (!metadataMatch.Success)
                 throw new Exception("Invalid markdown format: Metadata block not found.");
-            }
 
-            // Extract metadata values
-            var title = match.Groups["Title"].Value.Trim();
-            var tags = match.Groups["Tags"].Value.Trim();
-            var slug = match.Groups["Slug"].Value.Trim();
+            if (!titleMatch.Success)
+                throw new Exception("Invalid markdown format: Title not found");
 
-            // Content is everything after the metadata block
-            var content = markdownData.Substring(match.Index + match.Length).Trim();
+            var title = titleMatch.Groups["Title"].Value.Trim();
+            var content = markdownData.Substring(metadataMatch.Index + metadataMatch.Length).Trim();
 
-            // Create and return the Topic object
             var topic = new Topic
             {
                 Name = title,  
                 Content = content,  
-                Metadata = $"<--!Title: {title}\nTags: {tags}\nSlug: {slug}-->" 
+                Metadata = metadataMatch.Value
             };
 
             return topic;
