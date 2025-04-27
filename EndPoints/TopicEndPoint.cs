@@ -64,7 +64,9 @@ public static class TopicEndPoint
             if (completedCollection.Count > 0)
                 await collection.InsertManyAsync(completedCollection);
 
-            return errorCollection.Count == 0 ? Results.Ok($"All {completedCollection.Count} Completed") : Results.Problem($"{completedCollection.Count} Successfully completed.\nFailed {errorCollection}");
+            return errorCollection.Count == 0 ? 
+                Results.Ok($"All {completedCollection.Count} Completed") : 
+                    Results.Problem($"{completedCollection.Count} Successfully completed.\nFailed {errorCollection}");
 
         })
         .WithName("AddTopics")
