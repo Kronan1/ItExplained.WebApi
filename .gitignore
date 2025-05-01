@@ -48,5 +48,3 @@ TestResults/
 # Ignore prompts
 **/Prompts/
 
-# Ignore mock
-**/Mock/
