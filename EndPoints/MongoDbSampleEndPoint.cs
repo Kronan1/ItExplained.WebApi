@@ -10,7 +10,7 @@ public static class MongoDbSampleEndPoint
 {
     public static IEndpointRouteBuilder MapMongoDbSample(this IEndpointRouteBuilder app, DbContextService dbContextService)
     {
-        app.MapGet("/api/comments", () =>
+        app.MapGet("/db/comments", () =>
         {
             try
             {
