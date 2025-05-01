@@ -30,6 +30,9 @@ app.MapTopic(
     app.Services.GetRequiredService<DbContextService>(),
     app.Services.GetRequiredService<IConfiguration>()
 );
+app.MapPrompt(
+    app.Services.GetRequiredService<IConfiguration>()
+    );
 
 app.UseHttpsRedirection();
 

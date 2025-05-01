@@ -11,7 +11,7 @@ public static class TopicEndPoint
         var db = client.GetDatabase("knowledge_core");
         var collection = db.GetCollection<Topic>("topics");
 
-        app.MapPost("/api/add-topic", async (HttpContext context, string requestedTopic) =>
+        app.MapPost("/topic/add-topic", async (HttpContext context, string requestedTopic) =>
         {
             try
             {
@@ -34,7 +34,7 @@ public static class TopicEndPoint
         .WithName("AddTopic")
         .WithOpenApi();
 
-        app.MapPost("/api/add-topics", async (HttpContext context) =>
+        app.MapPost("/topic/add-topics", async (HttpContext context) =>
         {
             var folderPath = configuration["Configuration:FolderPath"];
 
@@ -73,7 +73,7 @@ public static class TopicEndPoint
         .WithOpenApi();
 
 
-        app.MapPost("/api/get-topic", async (HttpContext context, string requestedTopic) =>
+        app.MapPost("/topic/get-topic", async (HttpContext context, string requestedTopic) =>
         {
             try
             {
