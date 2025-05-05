@@ -1,12 +1,16 @@
-using it_explained.WebApi.Repository.Initializers;
 using it_explained.WebApi.EndPoints;
 using AutoMapper;
+using it_explained.WebApi.Repository.DbContext;
+using it_explained.WebApi.Domain.Services;
+using it_explained.WebApi.Domain.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton<MongoDbContextService>();
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddSingleton<DbContextService>();
+builder.Services.AddScoped<TopicService>();
 
 // OpenAPI + Swagger
 builder.Services.AddEndpointsApiExplorer(); // Needed for Minimal APIs
@@ -22,14 +26,6 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = "swagger"; // default
 });
 
-app.MapWeatherForecast();
-app.MapMongoDbSample(
-    app.Services.GetRequiredService<DbContextService>()
-);
-app.MapTopic(
-    app.Services.GetRequiredService<DbContextService>(),
-    app.Services.GetRequiredService<IConfiguration>()
-);
 app.MapPrompt(
     app.Services.GetRequiredService<IConfiguration>()
     );
