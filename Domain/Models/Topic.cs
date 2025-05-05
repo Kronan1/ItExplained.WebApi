@@ -12,10 +12,13 @@ namespace it_explained.WebApi.Domain.Models
         [BsonElement("name")]
         public string? Name { get; set; }
 
+        [BsonElement("slug")]
+        public string? Slug { get; set; }
+
         [BsonElement("content")]
         public string? Content { get; set; }
 
-        [BsonElement("metadata")]
-        public string? Metadata { get; set; }
+        [BsonElement("tags")]
+        public List<string>? Tags { get; set; }
     }
 }
