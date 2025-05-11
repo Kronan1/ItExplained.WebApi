@@ -5,29 +5,48 @@ using MongoDB.Driver;
 namespace it_explained.WebApi.EndPoints;
 public static class TopicEndPoint
 {
-    public static IEndpointRouteBuilder MapTopic(this IEndpointRouteBuilder app, MongoDbContextService dbContextService, IConfiguration configuration)
+    public static IEndpointRouteBuilder MapTopic(this IEndpointRouteBuilder app)
     {
-        var client = new MongoClient();
-        var db = client.GetDatabase("knowledge_core");
-        var collection = db.GetCollection<Topic>("topics");
-
-        app.MapPost("/topic/get-topics", async (HttpContext context, string requestedTopic) =>
+        app.MapPost("/topic/get-test-topic", async (IMongoClient mongoClient) =>
         {
             try
             {
-                var filter = Builders<Topic>.Filter.Eq("name", requestedTopic);
+                var db = mongoClient.GetDatabase("knowledge_core");
+                var collection = db.GetCollection<Topic>("topics");
+
+                var filter = Builders<Topic>.Filter.Eq(x => x.Name, "TLS");
                 var topic = await collection.Find(filter).FirstOrDefaultAsync();
 
-                return topic != null ? Results.Ok(topic) : Results.NotFound("No topic found with name " + requestedTopic);
+                return topic != null ? Results.Ok(topic) : Results.NotFound("test topic failed");
             }
             catch (Exception ex)
             {
-                return Results.InternalServerError(new { message = ex.Message });
+                return Results.Problem(ex.Message);
             }
         })
-        .WithName("GetTopics")
+        .WithName("GetFirstTopic")
         .WithOpenApi();
 
-            return app;
+        app.MapPost("/topic/get-all", async (IMongoClient mongoClient) =>
+        {
+            try
+            {
+                var db = mongoClient.GetDatabase("knowledge_core");
+                var collection = db.GetCollection<Topic>("topics");
+
+                var filter = Builders<Topic>.Filter.Empty;
+                var topics = await collection.Find(filter).ToListAsync();
+
+                return topics != null ? Results.Ok(topics) : Results.NotFound("Could not get collection");
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
+        })
+      .WithName("GetAll")
+      .WithOpenApi();
+
+        return app;
     }
 }
