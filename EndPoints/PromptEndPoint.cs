@@ -12,28 +12,28 @@ namespace it_explained.WebApi.EndPoints
 {
     public static class PromptEndPoint
     {
-        public static IEndpointRouteBuilder MapPrompt(this IEndpointRouteBuilder app, IConfiguration configuration)
+        public static IEndpointRouteBuilder MapPrompt(this IEndpointRouteBuilder app)
         {
             //ITopicService topicService
 
-            app.MapPost("/prompt/generate-topic", async (HttpContext context) =>
+            app.MapPost("/prompt/generate-topic", async (HttpContext context, IConfiguration configuration, ITopicService topicService) =>
             {
-                var topicService = context.RequestServices.GetRequiredService<TopicService>();
-
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Prompts", "Topics.json");
-                if (!File.Exists(filePath))
-                {
-                    Console.WriteLine("Error: File not found.");
-                    return Results.BadRequest($"Error: File {filePath} not found.");
-                }
-
-                ChatClient client = new(
-                    model: "gpt-4.1-mini",
-                    apiKey: configuration["Configuration:OpenAi_API_Key"]
-                );
-
                 try
                 {
+                    var service = topicService;
+
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Prompts", "Topics.json");
+                    if (!File.Exists(filePath))
+                    {
+                        Console.WriteLine("Error: File not found.");
+                        return Results.BadRequest($"Error: File {filePath} not found.");
+                    }
+
+                    ChatClient client = new(
+                        model: "gpt-4.1-mini",
+                        apiKey: configuration["Configuration:OpenAi_API_Key"]
+                    );
+
                     string data = File.ReadAllText(filePath);
                     var dictionary = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(data);
 
@@ -57,10 +57,10 @@ namespace it_explained.WebApi.EndPoints
                         topicCollection.Add(TopicHelper.CreateTopic(topic, tags, content));
                         Console.WriteLine($"Generated {iterator} / {dictionary.Count}");
 
-                        if (iterator % 50 == 0)
+                        if (iterator % 50 == 0 || iterator == dictionary.Count)
                         {
                             if (topicCollection.Count > 0)
-                                await topicService.SaveTopics(topicCollection);
+                                await service.SaveTopics(topicCollection);
 
                             topicCollection = [];
                             await Task.Delay(TimeSpan.FromMinutes(2)); // Wait for 2 minutes
