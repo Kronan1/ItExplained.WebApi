@@ -44,3 +44,7 @@ Thumbs.db
 
 # Ignore test results
 TestResults/
+
+# Ignore prompts
+**/Prompts/
+
