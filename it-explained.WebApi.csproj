@@ -11,7 +11,12 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
     <PackageReference Include="MongoDB.Driver" Version="3.3.0" />
+    <PackageReference Include="OpenAI" Version="2.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repository\Initializers\" />
   </ItemGroup>
 
 </Project>
