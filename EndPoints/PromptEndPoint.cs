@@ -18,6 +18,17 @@ namespace it_explained.WebApi.EndPoints
 
             app.MapPost("/prompt/generate-topic", async (HttpContext context, IConfiguration configuration, ITopicService topicService) =>
             {
+                if (env.IsProduction())
+                {
+                    return Results.BadRequest("This endpoint is disabled in production.");
+                }
+            
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Prompts", "Topics.json");
+                if (!File.Exists(filePath))
+                {
+                    return Results.BadRequest($"Missing file: {filePath}");
+                }
+                
                 try
                 {
                     var service = topicService;
