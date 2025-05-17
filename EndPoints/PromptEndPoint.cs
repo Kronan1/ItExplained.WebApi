@@ -2,7 +2,7 @@
 using it_explained.WebApi.Domain.Services;
 using it_explained.WebApi.Domain.Services.Interfaces;
 using it_explained.WebApi.Helpers;
-using it_explained.WebApi.Prompts;
+// using it_explained.WebApi.Prompts;
 using it_explained.WebApi.Repository.DbContext;
 using Microsoft.Extensions.Configuration;
 using OpenAI.Chat;
