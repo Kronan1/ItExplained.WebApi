@@ -59,7 +59,7 @@ namespace it_explained.WebApi.EndPoints
                         string topic = item.Key;
                         string tagsString = string.Join(", ", item.Value);
                         List<string> tags = item.Value;
-                        var prompt = "" //Instruction.Prompt + $" Topic = {topic}. Tags = {tags}.";
+                        var prompt = ""; //Instruction.Prompt + $" Topic = {topic}. Tags = {tags}.";
                         ChatCompletion completion = await client.CompleteChatAsync(prompt);
                         var content = completion.Content[0].Text;
 
