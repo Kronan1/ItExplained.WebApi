@@ -23,7 +23,7 @@ namespace it_explained.WebApi.EndPoints
                     return Results.BadRequest("This endpoint is disabled in production.");
                 }
             
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Prompts", "Topics.json");
+                var filePath = "";
                 if (!File.Exists(filePath))
                 {
                     return Results.BadRequest($"Missing file: {filePath}");
