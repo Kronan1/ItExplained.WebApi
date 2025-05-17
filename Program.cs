@@ -68,7 +68,7 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = "swagger"; // default
 });
 
-app.MapPrompt();
+// app.MapPrompt();
 app.MapTopic();
 
 app.UseHttpsRedirection();
