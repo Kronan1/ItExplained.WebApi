@@ -18,10 +18,9 @@ namespace it_explained.WebApi.EndPoints
 
             app.MapPost("/prompt/generate-topic", async (HttpContext context, IConfiguration configuration, ITopicService topicService) =>
             {
-                if (env.IsProduction())
-                {
-                    return Results.BadRequest("This endpoint is disabled in production.");
-                }
+               
+                return Results.BadRequest("This endpoint is disabled in production.");
+  
             
                 var filePath = "";
                 if (!File.Exists(filePath))
@@ -33,7 +32,6 @@ namespace it_explained.WebApi.EndPoints
                 {
                     var service = topicService;
 
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Prompts", "Topics.json");
                     if (!File.Exists(filePath))
                     {
                         Console.WriteLine("Error: File not found.");
@@ -61,7 +59,7 @@ namespace it_explained.WebApi.EndPoints
                         string topic = item.Key;
                         string tagsString = string.Join(", ", item.Value);
                         List<string> tags = item.Value;
-                        var prompt = Instruction.Prompt + $" Topic = {topic}. Tags = {tags}.";
+                        var prompt = "" //Instruction.Prompt + $" Topic = {topic}. Tags = {tags}.";
                         ChatCompletion completion = await client.CompleteChatAsync(prompt);
                         var content = completion.Content[0].Text;
 
